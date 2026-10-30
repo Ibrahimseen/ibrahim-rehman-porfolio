@@ -6,6 +6,53 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+const projects = [
+  {
+    name: "Support AI - Multi-Tenant AI Chatbot SaaS",
+    category: "SaaS",
+    tools:
+      "Next.js, TypeScript, MongoDB, Scalekit, Google Gemini API, Vercel",
+    image: "/images/aiChatbot.png",
+    link: "https://support-ai-rose.vercel.app/",
+  },
+  {
+    name: "E-Kart - E-Commerce Platform",
+    category: "E-Commerce",
+    tools:
+      "React.js, Redux, Tailwind CSS, Node.js, Express.js, MongoDB, JWT, Cloudinary",
+    image: "/images/ecomerce.png",
+    link: "https://ekart-frontend-ug4u.onrender.com/",
+  },
+  {
+    name: "Eventix - Event Management Platform",
+    category: "Web App",
+    tools: "React.js, Node.js, Express.js, MongoDB, JWT, REST APIs",
+    image: "/images/eventora.png",
+    link: "https://event-booking-1-82p5.onrender.com/",
+  },
+  {
+    name: "FitLinks - URL Shortener",
+    category: "Web App",
+    tools: "Next.js, React.js, REST API, Responsive Design",
+    image: "/images/urlshortner.png",
+    link: "https://github.com/Ibrahimseen",
+  },
+  {
+    name: "YouTube Clone",
+    category: "Frontend",
+    tools: "React.js, CSS, JavaScript, YouTube Data API",
+    image: "/images/youtbeclone.png",
+    link: "https://github.com/Ibrahimseen",
+  },
+  {
+    name: "MBA Chai Wala Clone",
+    category: "Landing Page",
+    tools: "React.js, CSS",
+    image: "/images/chaiwalaclone.png",
+    link: "https://github.com/Ibrahimseen",
+  },
+];
+
 const Work = () => {
   useGSAP(() => {
   let translateX: number = 0;
@@ -53,21 +100,25 @@ const Work = () => {
           My <span>Work</span>
         </h2>
         <div className="work-flex">
-          {[...Array(6)].map((_value, index) => (
+          {projects.map((project, index) => (
             <div className="work-box" key={index}>
               <div className="work-info">
                 <div className="work-title">
                   <h3>0{index + 1}</h3>
 
                   <div>
-                    <h4>Project Name</h4>
-                    <p>Category</p>
+                    <h4>{project.name}</h4>
+                    <p>{project.category}</p>
                   </div>
                 </div>
                 <h4>Tools and features</h4>
-                <p>Javascript, TypeScript, React, Threejs</p>
+                <p>{project.tools}</p>
               </div>
-              <WorkImage image="/images/placeholder.webp" alt="" />
+              <WorkImage
+                image={project.image}
+                alt={project.name}
+                link={project.link}
+              />
             </div>
           ))}
         </div>

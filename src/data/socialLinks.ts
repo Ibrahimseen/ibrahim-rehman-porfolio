@@ -1,4 +1,5 @@
 import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
+// import { FaXTwitter } from "react-icons/fa6";
 
 export const socialLinks = [
   {
@@ -16,4 +17,5 @@ export const socialLinks = [
     href: "https://www.instagram.com/ibrahim",
     Icon: FaInstagram,
   },
+  // { name: "Twitter/X", href: "https://x.com/your-handle", Icon: FaXTwitter },
 ];
