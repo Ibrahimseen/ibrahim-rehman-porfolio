@@ -14,7 +14,7 @@ export const socialLinks = [
   },
   {
     name: "Instagram",
-    href: "https://www.instagram.com/ibrahim",
+    href: "https://www.instagram.com/your_devloper?mdxt=bzRubjkyOHplOW4%3D&utm_source=qr",
     Icon: FaInstagram,
   },
   // { name: "Twitter/X", href: "https://x.com/your-handle", Icon: FaXTwitter },

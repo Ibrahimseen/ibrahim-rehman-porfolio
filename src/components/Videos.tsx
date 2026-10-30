@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FaGithub, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa6";
+import { FaGithub, FaInstagram, FaLinkedinIn, FaYoutube, FaTiktok } from "react-icons/fa6";
 import type { IconType } from "react-icons";
 import { MdArrowOutward, MdPlayArrow } from "react-icons/md";
 import gsap from "gsap";
@@ -37,8 +37,13 @@ export const videos: Video[] = [
     category: "Development",
     source: "channel",
   },
+  {
+    id: "N9EUpGBd-do",
+    title: "Your video title 3",
+    category: "React",
+    source: "channel",
+  },
 ];
-
 export const platforms: Platform[] = [
   {
     name: "GitHub",
@@ -58,15 +63,22 @@ export const platforms: Platform[] = [
     name: "Instagram",
     handle: "@ibrahim",
     desc: "Short-form content and the person behind the work.",
-    url: "https://www.instagram.com/ibrahim",
+    url: "https://www.instagram.com/your_devloper?mdxt=bzRubjkyOHplOW4%3D&utm_source=qr",
     icon: FaInstagram,
   },
   {
     name: "YouTube",
     handle: "@YOUR_CHANNEL_HANDLE",
     desc: "Long-form tutorials and explanations.",
-    url: "https://www.youtube.com/@YOUR_CHANNEL_HANDLE",
+    url: "https://www.youtube.com/@your-devloper",
     icon: FaYoutube,
+  },
+  {
+    name: "TikTok",
+    handle: "Your_devloper",
+    desc: "Long-form tutorials and explanations.",
+    url: "https://www.tiktok.com/@itz_yourdevloper",
+    icon: FaTiktok,
   },
 ];
 
@@ -171,7 +183,6 @@ const Videos = () => {
 
         <div className="videos-library" data-videos-reveal>
           <div className="videos-library-heading">
-            <h3>Selected videos</h3>
             <div className="videos-filters" aria-label="Filter videos">
               {filters.map(({ label, value }) => (
                 <button
@@ -185,6 +196,8 @@ const Videos = () => {
                 </button>
               ))}
             </div>
+            <h3>Selected videos</h3>
+
           </div>
 
           {videos.length === 0 ? (
@@ -201,7 +214,7 @@ const Videos = () => {
               aria-live="polite"
             >
               {visibleVideos.map((video, index) => (
-                <article className="video-card" key={video.id}>
+                <article className="video-card" key={`${video.id}-${index}`}>
                   <a
                     className="video-thumbnail"
                     href={`https://www.youtube.com/watch?v=${video.id}`}
