@@ -25,6 +25,11 @@
   color: var(--backgroundColor);
   /* transform: scale(1.2); */
 }
+.icons-section.contact-visible .social-icons,
+.icons-section.contact-visible .resume-button {
+  visibility: hidden;
+  pointer-events: none;
+}
 .social-icons span {
   width: 50px;
   height: 50px;

@@ -1,72 +1,65 @@
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import { MdArrowOutward } from "react-icons/md";
+import { TbNotes } from "react-icons/tb";
+import { socialLinks } from "../data/socialLinks";
 import "./styles/Contact.css";
 
 const Contact = () => {
   return (
-    <div className="contact-section section-container" id="contact">
-      <div className="contact-container">
+    <footer className="contact-section" id="contact">
+      <div className="contact-container section-container">
         <h3>Contact</h3>
         <div className="contact-flex">
           <div className="contact-box">
             <h4>Email</h4>
             <p>
-              <a href="mailto:example@mail.com" data-cursor="disable">
-                example@mail.com
+              <a
+                href="mailto:ibrahimrehman019@gmail.com"
+                data-cursor="disable"
+              >
+                ibrahimrehman019@gmail.com
               </a>
             </p>
             <h4>Phone</h4>
             <p>
-              <a href="tel:+9199999999" data-cursor="disable">
-                +91 99999 99999
+              <a href="tel:+923283482440" data-cursor="disable">
+                +92 328 3482440
               </a>
             </p>
           </div>
           <div className="contact-box">
             <h4>Social</h4>
-            <a
-              href="https://github.com"
-              target="_blank"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Github <MdArrowOutward />
-            </a>
-            <a
-              href="https://www.linkedin.com"
-              target="_blank"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Linkedin <MdArrowOutward />
-            </a>
-            <a
-              href="https://x.com"
-              target="_blank"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Twitter <MdArrowOutward />
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Instagram <MdArrowOutward />
-            </a>
+            {socialLinks.map(({ name, href }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="disable"
+                className="contact-social"
+                key={name}
+              >
+                {name} <MdArrowOutward aria-hidden="true" />
+              </a>
+            ))}
           </div>
           <div className="contact-box">
             <h2>
-              Designed and Developed <br /> by <span>Moncy Yohannan</span>
+              Designed and Developed by <span>Ibrahim Rehman</span>
             </h2>
-            <h5>
-              <MdCopyright /> 2024
-            </h5>
           </div>
         </div>
+        <div className="contact-bottom">
+          <p>© 2026 Ibrahim Rehman. All Rights Reserved.</p>
+          <a
+            className="contact-resume"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            RESUME <TbNotes aria-hidden="true" />
+          </a>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

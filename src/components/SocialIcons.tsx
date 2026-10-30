@@ -1,15 +1,12 @@
-import {
-  FaGithub,
-  FaInstagram,
-  FaLinkedinIn,
-  FaXTwitter,
-} from "react-icons/fa6";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HoverLinks from "./HoverLinks";
+import { socialLinks } from "../data/socialLinks";
 
 const SocialIcons = () => {
+  const [isContactVisible, setIsContactVisible] = useState(false);
+
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
 
@@ -56,34 +53,43 @@ const SocialIcons = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const contact = document.getElementById("contact");
+    if (!contact) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsContactVisible(entry.isIntersecting);
+    });
+
+    observer.observe(contact);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="icons-section">
+    <div className={`icons-section${isContactVisible ? " contact-visible" : ""}`}>
       <div className="social-icons" data-cursor="icons" id="social">
-        <span>
-          <a href="https://github.com" target="_blank">
-            <FaGithub />
-          </a>
-        </span>
-        <span>
-          <a href="https://www.linkedin.com" target="_blank">
-            <FaLinkedinIn />
-          </a>
-        </span>
-        <span>
-          <a href="https://x.com" target="_blank">
-            <FaXTwitter />
-          </a>
-        </span>
-        <span>
-          <a href="https://www.instagram.com" target="_blank">
-            <FaInstagram />
-          </a>
-        </span>
+        {socialLinks.map(({ name, href, Icon }) => (
+          <span key={name}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={name}
+            >
+              <Icon />
+            </a>
+          </span>
+        ))}
       </div>
-      <a className="resume-button" href="#">
+      <a
+        className="resume-button"
+        href="/resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <HoverLinks text="RESUME" />
         <span>
-          <TbNotes />
+          <TbNotes aria-hidden="true" />
         </span>
       </a>
     </div>
