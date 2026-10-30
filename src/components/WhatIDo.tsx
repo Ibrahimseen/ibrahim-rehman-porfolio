@@ -4,26 +4,27 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WhatIDo = () => {
   const containerRef = useRef<(HTMLDivElement | null)[]>([]);
+
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
   };
+
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
-    return () => {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.removeEventListener("click", () => handleClick(container));
-        }
-      });
-    };
+    if (!ScrollTrigger.isTouch) return;
+
+    const cleanups = containerRef.current.map((container) => {
+      if (!container) return () => {};
+
+      container.classList.remove("what-noTouch");
+      const onClick = () => handleClick(container);
+      container.addEventListener("click", onClick);
+
+      return () => container.removeEventListener("click", onClick);
+    });
+
+    return () => cleanups.forEach((cleanup) => cleanup());
   }, []);
+
   return (
     <div className="whatIDO">
       <div className="what-box">
@@ -34,6 +35,7 @@ const WhatIDo = () => {
           </div>
         </h2>
       </div>
+
       <div className="what-box">
         <div className="what-box-in">
           <div className="what-border2">
@@ -58,6 +60,8 @@ const WhatIDo = () => {
               />
             </svg>
           </div>
+
+          {/* DEVELOP */}
           <div
             className="what-content what-noTouch"
             ref={(el) => setRef(el, 0)}
@@ -90,9 +94,10 @@ const WhatIDo = () => {
               <h3>DEVELOP</h3>
               <h4>Frontend and Backend</h4>
               <p>
-                React.js, Next.js, TypeScript, JavaScript, Redux, Zustand,
-                TanStack Query, Tailwind CSS, Material-UI, Shadcn/UI, Node.js,
-                Express.js, MongoDB, REST APIs, JWT Authentication
+                I build scalable and responsive web applications, combining
+                modern frontend experiences with reliable backend systems and
+                RESTful APIs. Focused on clean code, performance, and
+                maintainable architecture.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
@@ -106,10 +111,16 @@ const WhatIDo = () => {
                 <div className="what-tags">Tailwind CSS</div>
                 <div className="what-tags">Material-UI</div>
                 <div className="what-tags">Shadcn/UI</div>
+                <div className="what-tags">Node.js</div>
+                <div className="what-tags">Express.js</div>
+                <div className="what-tags">MongoDB</div>
+                <div className="what-tags">REST APIs</div>
               </div>
               <div className="what-arrow"></div>
             </div>
           </div>
+
+          {/* ENGINEER */}
           <div
             className="what-content what-noTouch"
             ref={(el) => setRef(el, 1)}
@@ -128,24 +139,29 @@ const WhatIDo = () => {
               </svg>
             </div>
             <div className="what-corner"></div>
+
             <div className="what-content-in">
-              <h3>DESIGN</h3>
-              <h4>DevOps and Tools</h4>
+              <h3>ENGINEER</h3>
+              <h4>Infrastructure and DevOps</h4>
               <p>
-                Docker, Jenkins CI/CD, Ansible, AWS deployment, Git, GitHub,
-                Postman, Cloudinary, Nodemailer, Multer, Google Gemini API
-                integration
+                Beyond development, I explore system architecture, cloud
+                infrastructure, automation, and deployment workflows to build
+                reliable and efficient software solutions.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
                 <div className="what-tags">Docker</div>
-                <div className="what-tags">Jenkins CI/CD</div>
-                <div className="what-tags">Ansible</div>
                 <div className="what-tags">AWS</div>
+                <div className="what-tags">Jenkins</div>
+                <div className="what-tags">CI/CD</div>
+                <div className="what-tags">Ansible</div>
                 <div className="what-tags">Git</div>
                 <div className="what-tags">GitHub</div>
                 <div className="what-tags">Postman</div>
-                <div className="what-tags">Cloudinary</div>
+                <div className="what-tags">JWT</div>
+                <div className="what-tags">REST APIs</div>
+                <div className="what-tags">API Integration</div>
+                <div className="what-tags">Cloud Deployment</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -161,6 +177,7 @@ export default WhatIDo;
 function handleClick(container: HTMLDivElement) {
   container.classList.toggle("what-content-active");
   container.classList.remove("what-sibling");
+
   if (container.parentElement) {
     const siblings = Array.from(container.parentElement.children);
 
