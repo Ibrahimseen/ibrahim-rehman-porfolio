@@ -101,14 +101,20 @@ const Videos = () => {
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!section) return;
+
+    const reveals = section.querySelectorAll<HTMLElement>("[data-videos-reveal]");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(reveals, { opacity: 1, y: 0 });
       return;
     }
 
     gsap.registerPlugin(ScrollTrigger);
+
     const context = gsap.context(() => {
       gsap.fromTo(
-        section.querySelectorAll<HTMLElement>("[data-videos-reveal]"),
+        reveals,
         { opacity: 0, y: 18 },
         {
           opacity: 1,
@@ -116,16 +122,26 @@ const Videos = () => {
           duration: 0.65,
           ease: "power3.out",
           stagger: 0.08,
+          clearProps: "transform",
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
+            start: "top 95%",
             once: true,
+            invalidateOnRefresh: true,
           },
         }
       );
     }, section);
 
-    return () => context.revert();
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+    const timer = window.setTimeout(refresh, 800);
+
+    return () => {
+      window.removeEventListener("load", refresh);
+      window.clearTimeout(timer);
+      context.revert();
+    };
   }, []);
 
   useEffect(
