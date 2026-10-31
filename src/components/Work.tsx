@@ -54,44 +54,46 @@ const projects = [
 ];
 
 const Work = () => {
-  useGSAP(() => {
-  let translateX: number = 0;
+ useGSAP(() => {
+  const mm = gsap.matchMedia();
 
-  function setTranslateX() {
-    const box = document.getElementsByClassName("work-box");
-    const rectLeft = document
-      .querySelector(".work-container")!
-      .getBoundingClientRect().left;
-    const rect = box[0].getBoundingClientRect();
-    const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
-    let padding: number =
-      parseInt(window.getComputedStyle(box[0]).padding) / 2;
-    translateX = rect.width * box.length - (rectLeft + parentWidth) + padding;
-  }
+  mm.add("(min-width: 1026px)", () => {
+    const flex = document.querySelector<HTMLElement>(".work-flex");
+    if (!flex) return;
+    const getDistance = () => {
+      const boxes = gsap.utils.toArray<HTMLElement>(".work-box");
+      if (boxes.length === 0) return 0;
 
-  setTranslateX();
+      const currentX = Number(gsap.getProperty(flex, "x")) || 0;
+      const lastRect = boxes[boxes.length - 1].getBoundingClientRect();
+      const lastRightUntransformed = lastRect.right - currentX;
 
-  let timeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".work-section",
-      start: "top top",
-      end: `+=${translateX}`, // Use actual scroll width
-      scrub: true,
-      pin: true,
-      id: "work",
-    },
+      const paddingRight =
+        parseFloat(getComputedStyle(flex).paddingRight) || 0;
+
+      const distance =
+        lastRightUntransformed + paddingRight - window.innerWidth;
+
+      return Math.max(0, distance);
+    };
+
+    gsap.to(flex, {
+      x: () => -getDistance(),
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".work-section",
+        start: "top top",
+        end: () => `+=${getDistance()}`,
+        scrub: 0.6,
+        pin: true,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        id: "work",
+      },
+    });
   });
 
-  timeline.to(".work-flex", {
-    x: -translateX,
-    ease: "none",
-  });
-
-  // Clean up (optional, good practice)
-  return () => {
-    timeline.kill();
-    ScrollTrigger.getById("work")?.kill();
-  };
+  return () => mm.revert();
 }, []);
   return (
     <div className="work-section" id="work">
